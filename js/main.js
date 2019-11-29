@@ -25,7 +25,9 @@ $(document).ready(function() {
     });
 });
 function change_page(page) {
-    $('#accordionSidebar li.active').removeClass('active');
+    if(page) {
+        $('#accordionSidebar li.active').removeClass('active');
+    }
     var page_name;
     switch (page) { 
         case 'index':
