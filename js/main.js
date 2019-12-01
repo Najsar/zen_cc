@@ -35,7 +35,13 @@ function change_page(page) {
             page_name = "Panel Kontrolny";
             $('#page_body').load('pages/dashboard.html', function() {
                 $('#dataTable').DataTable({
-                    ajax: "include/php/form_data.php?p=day_payment",
+                    ajax: {
+                        url: "http://localhost:3080/api/get_day_payments/",
+                        dataSrc: "data",
+                        xhrFields: {
+                            withCredentials: true
+                        }
+                    },
                     order: [[ 0, "desc" ]]
                 });
                 $("#page_body").append($("<div>").load("pages/dashboard_modals.html"));
@@ -156,13 +162,25 @@ function change_page(page) {
                 .on('changeDate', function(ev){
                     $("#dataTable").DataTable().destroy();
                     $('#dataTable').DataTable({
-                        ajax: "include/php/form_data.php?p=day_payment&date="+ev.format(),
+                        ajax: {
+                            url: "http://localhost:3080/api/get_day_payments/"+ev.format(),
+                            dataSrc: "data",
+                            xhrFields: {
+                                withCredentials: true
+                            }
+                        },
                         order: [[ 0, "desc" ]]
                     });
                 });
                 $('#date').datepicker('update', startDate);
                 $('#dataTable').DataTable({
-                    ajax: "include/php/form_data.php?p=day_payment",
+                    ajax: {
+                        url: "http://localhost:3080/api/get_day_payments/",
+                        dataSrc: "data",
+                        xhrFields: {
+                            withCredentials: true
+                        }
+                    },
                     order: [[ 0, "desc" ]]
                 });
             });
