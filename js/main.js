@@ -125,14 +125,28 @@ function change_page(page) {
                 minViewMode: "months"
                 })
                 .on('changeDate', function(ev){
-                    $.get('include/php/form_data.php?p=gen_stats&date='+ev.format(), function(d) {
+                    $.ajax({
+                        url : "http://localhost:3080/api/get_stats/"+ev.format(),
+                        xhrFields: {
+                            withCredentials: true
+                        },
+                        dataType : "json"
+                    })
+                    .done(function(res) {
                         $("#dataTable").DataTable().destroy();
-                        $('#dataTable').html(d);
+                        $('#dataTable').html(res['data']);
                         $('#dataTable').DataTable();
                     });
                 });
-                $.get('include/php/form_data.php?p=gen_stats', function(d) {
-                    $('#dataTable').html(d);
+                $.ajax({
+                    url : "http://localhost:3080/api/get_stats/",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    dataType : "json"
+                })
+                .done(function(res) {
+                    $('#dataTable').html(res['data']);
                     $('#dataTable').DataTable();
                 });
                 $('#date').datepicker('update', startDate);
