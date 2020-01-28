@@ -1,7 +1,13 @@
 $(document).ready(function() {
-    $.getJSON( "version.json", function(data) {
-        $("#version").html("Wersja interfejsu: " + data['interface-version'] + " Wersja silnika: " + data['engine-version'] + "");
-      })
+    $.ajax({
+        url : "http://localhost:3080/get_ver/",
+        dataType : "json"
+    })
+    .done(function(res) {
+        $.getJSON( "version.json", function(data) {
+            $("#version").html("Wersja interfejsu: " + data['interface-version'] + " Wersja silnika: " + res['data'] + "");
+        })
+    });
     $.get('include/menu.html', function(data) {
         $("#main_menu").replaceWith(data);
         $("#accordionSidebar li a").click(function() {
