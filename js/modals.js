@@ -31,16 +31,22 @@ function modal_sell_box()
         $('#sell_box_form').empty();
     }
     $.ajax({
-        url : "include/php/form_data.php?p=sell_box_form",
+        url : "http://localhost:3080/api/get_products/",
+        xhrFields: {
+            withCredentials: true
+        },
         dataType : "json"
     })
     .done(function(res) {
         var box_form = "<div class='form-group'><label>Rodzaj</label><select class='form-control' id='product_type_select'><option selected disabled>Wybierz rodzaj</option>";
         var elements = [];
-        for (var i = 0; i < res.length; i++) {
-            if (!elements.includes(res[i][0])) {
-            box_form += "<option value='"+res[i][0]+"'>"+res[i][1]+"</option>";
-            elements.push(res[i][0]);
+        var res_p = res['data']['products'];
+        var res_m = res['data']['payments'];
+
+        for (var i = 0; i < res_p.length; i++) {
+            if (!elements.includes(res_p[i][4])) {
+            box_form += "<option value='"+res_p[i][4]+"'>"+res_p[i][1]+"</option>";
+            elements.push(res_p[i][4]);
             }
             
         }
@@ -48,28 +54,23 @@ function modal_sell_box()
         $('#sell_box_form').append(box_form);
 
         $('#product_type_select').change(function(){
-        if($('#product_list_div').val() != undefined) {
-            $('#product_list_div').remove();
-        }
-        if($('#payment_metchod_list_div').val() != undefined) {
-            $('#payment_metchod_list_div').remove();
-        }
-        if($('#return_input_div').val() != undefined) {
-            $('#return_input_div').remove();
-        }
-        var box_form = "<div class='form-group' id='product_list_div'><label>Produkt</label><select class='form-control' id='product_list_select'><option selected disabled>Wybierz produkt</option>";
-        for (var i = 0; i < res.length; i++) {
-            if ( res[i][0] == $(this).val() ) {
-                box_form += "<option value='"+res[i][3]+"'>"+res[i][2]+"</option>";
-            } 
-        }
-        box_form += "</select></div>";
-        $('#sell_box_form').append(box_form);
-        $.ajax({
-            url : "include/php/form_data.php?p=payment_method",
-            dataType : "json"
-        })
-        .done(function(res2) {
+            if($('#product_list_div').val() != undefined) {
+                $('#product_list_div').remove();
+            }
+            if($('#payment_metchod_list_div').val() != undefined) {
+                $('#payment_metchod_list_div').remove();
+            }
+            if($('#return_input_div').val() != undefined) {
+                $('#return_input_div').remove();
+            }
+            var box_form = "<div class='form-group' id='product_list_div'><label>Produkt</label><select class='form-control' id='product_list_select'><option selected disabled>Wybierz produkt</option>";
+            for (var i = 0; i < res_p.length; i++) {
+                if ( res_p[i][4] == $(this).val() ) {
+                    box_form += "<option value='"+res_p[i][3]+"'>"+res_p[i][2]+"</option>";
+                } 
+            }
+            box_form += "</select></div>";
+            $('#sell_box_form').append(box_form);
             $('#product_list_select').change(function(){
                 if($('#payment_metchod_list_div').val() != undefined) {
                     $('#payment_metchod_list_div').remove();
@@ -80,8 +81,8 @@ function modal_sell_box()
                 var box_form = "<div  id='payment_metchod_list_div'><div class='form-group'><label>Ilość</label><div class='input-group'><input type='number' class='form-control' id='value_input' placeholder='1'><div class='input-group-append'><span class='input-group-text'>szt</span></div></div></div>";
                 box_form += "<div class='form-group'><label>Sposób płatności</label><select class='form-control' id='payment_metchod_list_select'><option selected disabled>Wybierz sposób płatności</option>";
 
-                for (var i = 0; i < res2.length; i++) {
-                box_form += "<option value='"+res2[i][0]+"'>"+res2[i][1]+"</option>";
+                for (var i = 0; i < res_m.length; i++) {
+                box_form += "<option value='"+res_m[i][0]+"'>"+res_m[i][1]+"</option>";
                 }
                 box_form += "</select></div></div>";
                 $('#sell_box_form').append(box_form);
@@ -128,7 +129,7 @@ function modal_sell_box()
                             var return_exchange = (Number($('#return_input').val())-Number($('#return_to_buy').val()) );
                             $('#return_exchange_input').val(Round(return_exchange, 2));
                         });
-    
+
                         $('#return_discount_input').keyup(function(){
                             //var return_exchange = (Number($('#return_input').val())-Number($('#product_list_select').val()) );
                             return_input = Number($('#product_list_select').val())-( (Number($('#return_discount_input').val()) * Number($('#product_list_select').val())) / 100);
@@ -139,7 +140,6 @@ function modal_sell_box()
             });
         });
 
-        });
     });
 }
 function modal_expense_box() 
@@ -148,10 +148,14 @@ function modal_expense_box()
         $('#expense_box_form').empty();
     }
     $.ajax({
-        url : "include/php/form_data.php?p=expense_box_form",
+        url : "http://localhost:3080/api/get_expense/",
+        xhrFields: {
+            withCredentials: true
+        },
         dataType : "json"
     })
     .done(function(res) {
+        res = res['data'];
         var box_form = "<div class='form-group'><label>Rodzaj</label><select class='form-control' id='expense_product_type_select'><option selected disabled>Wybierz rodzaj</option>";
         for (var i = 0; i < res.length; i++) {
             box_form += "<option value='"+res[i][0]+"'>"+res[i][1]+"</option>";
@@ -173,10 +177,14 @@ function modal_expense_box()
 function modal_day_report() 
 {
     $.ajax({
-        url : "include/php/form_data.php?p=day_report",
+        url : "http://localhost:3080/api/get_sum/",
+        xhrFields: {
+            withCredentials: true
+        },
         dataType : "json"
     })
     .done(function(res) {
+        res = res['data'];
         $("#start_cash").val( res['start_cash']+"zł" );
         $("#cash").val( res['cash']+"zł" );
         $("#expense").val( res['expense']+"zł" );
@@ -219,21 +227,45 @@ function send_newsell_modal()
     else
     {
         $.ajax({
-            url : "include/php/form_data.php?p=new_payment",
+            url : "http://localhost:3080/api/new_payment/",
+            xhrFields: {
+                withCredentials: true
+            },
             type: "POST",
             contentType: "application/x-www-form-urlencoded;charset=utf-8",
             data: { status: 'ok', data: data }
         })
         .done(function(res) {
-            //console.log("Response: " + res);
             refresh();
+            $('#newSell').modal('hide');
+            if(res['status'] == 0) {
+                $.notify({
+                    // options
+                    message: 'Wystąpił błąd :(' 
+                },{
+                    // settings
+                    type: 'danger'
+                });
+            }
+            else {
+                $.notify({
+                    // options
+                    message: 'Produkt dodany do dzisiejszej spedaży' 
+                },{
+                    // settings
+                    type: 'success'
+                })
+            }
+            
+        })
+        .fail(function(err) {
             $('#newSell').modal('hide');
             $.notify({
                 // options
-                message: 'Produkt dodany do dzisiejszej spedaży' 
+                message: 'Wystąpił błąd :(' 
             },{
                 // settings
-                type: 'success'
+                type: 'error'
             });
         });
     }
@@ -253,21 +285,44 @@ function send_newExpense_modal()
     else
     {
         $.ajax({
-            url : "include/php/form_data.php?p=new_expense",
+            url : "http://localhost:3080/api/new_expense/",
+            xhrFields: {
+                withCredentials: true
+            },
             type: "POST",
             contentType: "application/x-www-form-urlencoded;charset=utf-8",
             data: { status: 'ok', data: data }
         })
         .done(function(res) {
-            //console.log("Response: " + res);
-            refresh();
+            $('#newExpense').modal('hide');
+            if(res['status'] == 0) {
+                $.notify({
+                    // options
+                    message: 'Wystąpił błąd :(' 
+                },{
+                    // settings
+                    type: 'danger'
+                });
+            }
+            else {
+                refresh();
+                $.notify({
+                    // options
+                    message: 'Produkt dodany do dzisiejszych wydatków' 
+                },{
+                    // settings
+                    type: 'success'
+                });
+            }
+        })
+        .fail(function(err) {
             $('#newExpense').modal('hide');
             $.notify({
                 // options
-                message: 'Produkt dodany do dzisiejszych wydatków' 
+                message: 'Wystąpił błąd :(' 
             },{
                 // settings
-                type: 'success'
+                type: 'danger'
             });
         });
     }
@@ -282,22 +337,46 @@ function send_modal_day_report()
     }
     else
     {
+        console.log(data);
         $.ajax({
-            url : "include/php/form_data.php?p=new_day_report",
+            url : "http://localhost:3080/api/new_report/",
+            xhrFields: {
+                withCredentials: true
+            },
             type: "POST",
             contentType: "application/x-www-form-urlencoded;charset=utf-8",
             data: { status: 'ok', data: data }
         })
         .done(function(res) {
-            console.log("Response: " + res + data);
             refresh();
+            $('#dayReport').modal('hide');
+            if(res['status'] == 0) {
+                $.notify({
+                    // options
+                    message: 'Wystąpił błąd :(' 
+                },{
+                    // settings
+                    type: 'danger'
+                });
+            }
+            else {
+                $.notify({
+                    // options
+                    message: 'Raport został wykonany poprawnie' 
+                },{
+                    // settings
+                    type: 'success'
+                });
+            }
+        })
+        .fail(function(err) {
             $('#dayReport').modal('hide');
             $.notify({
                 // options
-                message: 'Raport został wykonany poprawnie' 
+                message: 'Wystąpił błąd :(' 
             },{
                 // settings
-                type: 'success'
+                type: 'danger'
             });
         });
     }

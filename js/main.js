@@ -99,13 +99,25 @@ function change_page(page) {
                 .on('changeDate', function(ev){
                     $("#dataTable").DataTable().destroy()
                     $('#dataTable').DataTable({
-                        ajax: "include/php/form_data.php?p=day_reports&date="+ev.format(),
+                        ajax: {
+                            url: "http://localhost:3080/api/get_reports/"+ev.format(),
+                            dataSrc: "data",
+                            xhrFields: {
+                                withCredentials: true
+                            }
+                        },
                         order: [[ 0, "desc" ]]
                     });
                 });
                 $('#date').datepicker('update', startDate);
                 $('#dataTable').DataTable({
-                    ajax: "include/php/form_data.php?p=day_reports",
+                    ajax: {
+                        url: "http://localhost:3080/api/get_reports/",
+                        dataSrc: "data",
+                        xhrFields: {
+                            withCredentials: true
+                        }
+                    },
                     order: [[ 0, "desc" ]]
                 });
             });
