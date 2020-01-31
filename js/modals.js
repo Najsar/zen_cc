@@ -7,7 +7,7 @@ function refresh()
 {
     $('#dataTable').DataTable().ajax.reload();
     $.ajax({
-        url : "http://localhost:3080/api/get_profit/",
+        url : "http://srv.zenonvr.com/api/api/get_profit/",
         xhrFields: {
             withCredentials: true
         },
@@ -31,7 +31,7 @@ function modal_sell_box()
         $('#sell_box_form').empty();
     }
     $.ajax({
-        url : "http://localhost:3080/api/get_products/",
+        url : "http://srv.zenonvr.com/api/api/get_products/",
         xhrFields: {
             withCredentials: true
         },
@@ -148,7 +148,7 @@ function modal_expense_box()
         $('#expense_box_form').empty();
     }
     $.ajax({
-        url : "http://localhost:3080/api/get_expense/",
+        url : "http://srv.zenonvr.com/api/api/get_expense/",
         xhrFields: {
             withCredentials: true
         },
@@ -177,7 +177,7 @@ function modal_expense_box()
 function modal_day_report() 
 {
     $.ajax({
-        url : "http://localhost:3080/api/get_sum/",
+        url : "http://srv.zenonvr.com/api/api/get_sum/",
         xhrFields: {
             withCredentials: true
         },
@@ -227,7 +227,7 @@ function send_newsell_modal()
     else
     {
         $.ajax({
-            url : "http://localhost:3080/api/new_payment/",
+            url : "http://srv.zenonvr.com/api/api/new_payment/",
             xhrFields: {
                 withCredentials: true
             },
@@ -285,7 +285,7 @@ function send_newExpense_modal()
     else
     {
         $.ajax({
-            url : "http://localhost:3080/api/new_expense/",
+            url : "http://srv.zenonvr.com/api/api/new_expense/",
             xhrFields: {
                 withCredentials: true
             },
@@ -339,7 +339,7 @@ function send_modal_day_report()
     {
         console.log(data);
         $.ajax({
-            url : "http://localhost:3080/api/new_report/",
+            url : "http://srv.zenonvr.com/api/api/new_report/",
             xhrFields: {
                 withCredentials: true
             },

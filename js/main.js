@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $.ajax({
-        url : "http://localhost:3080/get_ver/",
+        url : "http://srv.zenonvr.com/api/get_ver/",
         dataType : "json"
     })
     .done(function(res) {
@@ -15,7 +15,7 @@ $(document).ready(function() {
         });
     });
     $.ajax({
-        url : "http://localhost:3080/api/get_user/",
+        url : "http://srv.zenonvr.com/api/api/get_user/",
         xhrFields: {
             withCredentials: true
         },
@@ -42,7 +42,7 @@ function change_page(page) {
             $('#page_body').load('pages/dashboard.html', function() {
                 $('#dataTable').DataTable({
                     ajax: {
-                        url: "http://localhost:3080/api/get_day_payments/",
+                        url: "http://srv.zenonvr.com/api/api/get_day_payments/",
                         dataSrc: "data",
                         xhrFields: {
                             withCredentials: true
@@ -100,7 +100,7 @@ function change_page(page) {
                     $("#dataTable").DataTable().destroy()
                     $('#dataTable').DataTable({
                         ajax: {
-                            url: "http://localhost:3080/api/get_reports/"+ev.format(),
+                            url: "http://srv.zenonvr.com/api/api/get_reports/"+ev.format(),
                             dataSrc: "data",
                             xhrFields: {
                                 withCredentials: true
@@ -112,7 +112,7 @@ function change_page(page) {
                 $('#date').datepicker('update', startDate);
                 $('#dataTable').DataTable({
                     ajax: {
-                        url: "http://localhost:3080/api/get_reports/",
+                        url: "http://srv.zenonvr.com/api/api/get_reports/",
                         dataSrc: "data",
                         xhrFields: {
                             withCredentials: true
@@ -144,7 +144,7 @@ function change_page(page) {
                 })
                 .on('changeDate', function(ev){
                     $.ajax({
-                        url : "http://localhost:3080/api/get_stats/"+ev.format(),
+                        url : "http://srv.zenonvr.com/api/api/get_stats/"+ev.format(),
                         xhrFields: {
                             withCredentials: true
                         },
@@ -157,7 +157,7 @@ function change_page(page) {
                     });
                 });
                 $.ajax({
-                    url : "http://localhost:3080/api/get_stats/",
+                    url : "http://srv.zenonvr.com/api/api/get_stats/",
                     xhrFields: {
                         withCredentials: true
                     },
@@ -195,7 +195,7 @@ function change_page(page) {
                     $("#dataTable").DataTable().destroy();
                     $('#dataTable').DataTable({
                         ajax: {
-                            url: "http://localhost:3080/api/get_day_payments/"+ev.format(),
+                            url: "http://srv.zenonvr.com/api/api/get_day_payments/"+ev.format(),
                             dataSrc: "data",
                             xhrFields: {
                                 withCredentials: true
@@ -207,7 +207,7 @@ function change_page(page) {
                 $('#date').datepicker('update', startDate);
                 $('#dataTable').DataTable({
                     ajax: {
-                        url: "http://localhost:3080/api/get_day_payments/",
+                        url: "http://srv.zenonvr.com/api/api/get_day_payments/",
                         dataSrc: "data",
                         xhrFields: {
                             withCredentials: true
@@ -230,7 +230,7 @@ function change_page(page) {
     }
     $.get('include/top_menu.html', function( data ) {
         $.ajax({
-            url : "http://localhost:3080/api/get_user/",
+            url : "http://srv.zenonvr.com/api/api/get_user/",
             xhrFields: {
                 withCredentials: true
             },
